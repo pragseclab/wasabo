@@ -1,0 +1,21 @@
+FROM php:7.4-apache
+
+RUN apt-get update && apt-get install -y \
+		libfreetype6-dev \
+		libjpeg62-turbo-dev \
+		libpng-dev \
+	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
+	&& docker-php-ext-install -j$(nproc) gd
+
+## PHP & Extensions
+# RUN apt update && apt install -y php7.0-mysql
+RUN docker-php-ext-install mysqli
+RUN docker-php-ext-install opcache
+
+RUN a2enmod rewrite
+#RUN echo "AllowOverride All" >> /etc/apache2/apache2.conf
+
+RUN chown -R www-data:www-data /var/www/html
+WORKDIR /var/www/html
+EXPOSE 80
+CMD ["apachectl", "-D", "FOREGROUND"]

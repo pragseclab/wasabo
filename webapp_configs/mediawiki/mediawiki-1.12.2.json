@@ -1,0 +1,38 @@
+{
+    "docker": {
+        "mysql": {
+            "image_name": "base_images:mysql_5.0",
+            "image_location": "remote",
+            "environment": [
+                "MYSQL_DATABASE=drupal",
+                "MYSQL_ROOT_PASSWORD=password",
+                "MYSQL_USER=drupal",
+                "MYSQL_PASSWORD=password"
+            ]
+        },
+        "php": {
+            "image_name": "base_images:php_5.2",
+            "image_location": "local",
+            "environment": [
+                "WORDPRESS_DB_NAME=drupal",
+                "WORDPRESS_DB_HOST=mysql:3306",
+                "WORDPRESS_DB_USER=drupal",
+                "WORDPRESS_DB_PASSWORD=password"
+            ],
+            "ports": {
+                "80": "8080"
+            },
+            "volumes": {
+                "/home/brian/Desktop/WebAppFingerprinting/WebAppTester/webapp_sources/wordpress/wordpress-2.0": {
+                    "bind": "/var/www/html"
+                }
+            }
+        }
+    },
+    "download_url": "https://wordpress.org/wordpress-5.7.tar.gz",
+    "launcher": "MediaWiki1_16Launcher",
+    "version_check": {
+        "url": "http://localhost:8080",
+        "regex": "wgVersion = \"+([\\d.]+)\""
+    }
+}

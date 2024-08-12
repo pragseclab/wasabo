@@ -1,0 +1,38 @@
+{
+    "docker": {
+        "mysql": {
+            "image_name": "mysql/mysql-server:5.6",
+            "image_location": "remote",
+            "environment": [
+                "MYSQL_DATABASE=wordpress",
+                "MYSQL_ROOT_PASSWORD=password",
+                "MYSQL_USER=wordpress",
+                "MYSQL_PASSWORD=password"
+            ]
+        },
+        "php": {
+            "image_name": "base_images:php_5.6",
+            "image_location": "local",
+            "environment": [
+                "WORDPRESS_DB_NAME=wordpress",
+                "WORDPRESS_DB_HOST=mysql:3306",
+                "WORDPRESS_DB_USER=wordpress",
+                "WORDPRESS_DB_PASSWORD=password"
+            ],
+            "ports": {
+                "80": "8080"
+            },
+            "volumes": {
+                "/home/brian/Desktop/WebAppFingerprinting/WebAppTester/webapp_sources/wordpress/wordpress-2.0": {
+                    "bind": "/var/www/html"
+                }
+            }
+        }
+    },
+    "download_url": "https://wordpress.org/wordpress-4.6.14.tar.gz",
+    "launcher": "WordpressLauncher",
+    "version_check": {
+        "url": "http://localhost:8080",
+        "regex": "WordPress\\s+([\\d.]+)"
+    }
+}
